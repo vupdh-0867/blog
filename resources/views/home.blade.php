@@ -4,19 +4,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+            @foreach($posts as $post)
+                <div class="card">
+                    <div class="card-header">
+                        {{ $post->user->name }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{$post->title}}</h5>
+                        <p class="card-text">{{$post->content}}</p>
+                        <a href="#" class="btn btn-primary">Join</a>
+                        @if($post->user->id === Auth::id())
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endforeach
+            {{ $posts->links() }}
         </div>
     </div>
 </div>
