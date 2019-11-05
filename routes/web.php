@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('static_pages.welcome');
 });
 
 Auth::routes();
@@ -20,5 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('posts', 'PostController')->only([
-    'show', 'destroy'
+    'show', 'destroy', 'store'
 ]);
