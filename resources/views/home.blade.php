@@ -7,7 +7,7 @@
             @foreach($posts as $post)
             <div class="card comment-item">
                 <div class="card-header">
-                    {{ $post->user->name }}
+                    {{ $post->user->name }} - {{$post->created_at}}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{$post->title}}</h5>

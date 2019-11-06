@@ -4,33 +4,29 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Model\User;
-use App\Model\Comment;
+use App\Model\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class Post extends Model
+class Comment extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'posts';
+    protected $table = 'comments';
     protected $fillable = [
-        'title', 'content', 'user_id'
+        'content', 'user_id', 'post_id'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function comments(){
-        return $this->hasMany(Comment::class);
+    public function post(){
+        return $this->belongsTo(Post::class);
     }
 
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromTimeStamp(strtotime($value))->diffForHumans();
-    }
-
-    public function scopeNewest($query){
-        return $query->orderBy('created_at', 'desc');
     }
 }

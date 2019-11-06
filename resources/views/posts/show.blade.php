@@ -10,42 +10,40 @@
                     <h6 class="card-title"><i>by {{$post->user->name}}</i></h6>
                     <p class="card-text">{{$post->content}}</p>
                     @if($post->user_id === Auth::id())
-                        {!! Form::open(['url' => route('posts.destroy', $post->id), 'method' => 'delete']) !!}
-                            <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
-                        {!! Form::close() !!}
+                    {!! Form::open(['url' => route('posts.destroy', $post->id), 'method' => 'delete']) !!}
+                    <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                    {!! Form::close() !!}
                     @endif
                 </div>
             </div>
-            <form>
+            <form method="post" action="{{route('comments.store')}}">
+                {{csrf_field()}}
+                <input type="hidden" name="post_id" value="{{$post->id}}">
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Write your comment here</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="content">Write your comment here</label>
+                    <textarea class="form-control" id="content" name="content" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Comment</button>
             </form>
             <div class="comment-panel">
+                @foreach($post->comments as $comment)
                 <div class="card comment-item">
                     <div class="card-header">
-                        Quote
+                        {{$comment->user->name}}
                     </div>
                     <div class="card-body">
                         <blockquote class="blockquote mb-0">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                            <p>{{$comment->content}}</p>
+                            <footer class="blockquote-footer">About <cite title="Source Title">{{$comment->created_at}}</cite></footer>
                         </blockquote>
+                        @if($comment->user->id === Auth::id())
+                        {!! Form::open(['url' => route('comments.destroy', $comment->id), 'method' => 'delete', 'class' => 'delete-form']) !!}
+                            <button style="float:right;" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Delete</button>
+                        {!! Form::close() !!}
+                        @endif
                     </div>
                 </div>
-                <div class="card comment-item">
-                    <div class="card-header">
-                        Quote
-                    </div>
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                        </blockquote>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
