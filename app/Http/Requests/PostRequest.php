@@ -32,9 +32,9 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Please enter title',
+            'title.required' => __('message.title_blank'),
             'title.max' => 'Title must be less than 100 characters',
-            'content.required'  => 'Please enter content',
+            'content.required'  => __('message.content_blank'),
             'content.max'  => 'Content must be less than 1000 characters',
         ];
     }

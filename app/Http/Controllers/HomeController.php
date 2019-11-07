@@ -21,6 +21,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function changeLanguage($language)
+    {
+        \Session::put('lang', $language);
+
+        return redirect()->back();
+    }
+    
     public function index()
     {
         $posts = Post::newest()->with('user')->with('comments')->paginate(3);

@@ -45,7 +45,7 @@ class PostController extends Controller
         $postParams = $request->only(['title', 'content']);
         $postParams['user_id'] = Auth::id();
         Post::create($postParams);
-        return redirect('home');
+        return redirect()->back();
     }
 
     /**
@@ -93,6 +93,6 @@ class PostController extends Controller
     {
         Gate::authorize('delete-post', $post = Post::find($id));
         $post->delete();
-        return redirect('home');
+        return redirect()->back();
     }
 }

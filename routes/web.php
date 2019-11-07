@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => 'locale'], function() {
+    Route::get('change-language/{language}', 'HomeController@changeLanguage')
+        ->name('user.change-language');
+});
 
 Route::get('/', function () {
     return view('static_pages.welcome');
