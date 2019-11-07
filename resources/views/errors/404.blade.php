@@ -69,7 +69,11 @@
                 <div class="title m-b-md">
                     404
                 </div>
-                <h1>{{$message}}</h1>
+                <h1>
+                    @if(isset($message))
+                        {{$message}}
+                    @endif
+                </h1>
             </div>
         </div>
     </body>

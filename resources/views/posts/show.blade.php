@@ -9,9 +9,9 @@
                     <h5 class="card-title">{{$post->title}}</h5>
                     <h6 class="card-title"><i>by {{$post->user->name}}</i></h6>
                     <p class="card-text">{{$post->content}}</p>
-                    @if($post->user_id === Auth::id())
+                    @if(Gate::allows('delete-post', $post))
                     {!! Form::open(['url' => route('posts.destroy', $post->id), 'method' => 'delete']) !!}
-                    <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                    <button class="btn btn-danger" onclick="return confirm('@lang('message.delete_confirm')')">@lang('home.delete')</button>
                     {!! Form::close() !!}
                     @endif
                 </div>
@@ -20,10 +20,10 @@
                 {{csrf_field()}}
                 <input type="hidden" name="post_id" value="{{$post->id}}">
                 <div class="form-group">
-                    <label for="content">Write your comment here</label>
+                    <label for="content">@lang('home.comment_title')</label>
                     <textarea class="form-control" id="content" name="content" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Comment</button>
+                <button type="submit" class="btn btn-primary">@lang('home.comment')</button>
             </form>
             <div class="comment-panel">
                 @foreach($post->comments as $comment)
@@ -38,7 +38,7 @@
                         </blockquote>
                         @if($comment->user->id === Auth::id())
                         {!! Form::open(['url' => route('comments.destroy', $comment->id), 'method' => 'delete', 'class' => 'delete-form']) !!}
-                            <button style="float:right;" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Delete</button>
+                            <button style="float:right;" class="btn btn-danger" onclick="return confirm('@lang('message.delete_confirm')')">@lang('home.delete')</button>
                         {!! Form::close() !!}
                         @endif
                     </div>

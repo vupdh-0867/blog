@@ -40,7 +40,7 @@ class CommentController extends Controller
         $commentParams = $request->only(['content', 'post_id']);
         $commentParams['user_id'] = Auth::id();
         Comment::create($commentParams);
-        return redirect()->route('posts.show', $commentParams['post_id']);
+        return redirect()->back();
     }
 
     /**
@@ -85,9 +85,7 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        $comment = Comment::findOrFail($id);
-        $postId = $comment->post->id;
-        $comment->delete();
-        return redirect()->route('posts.show', $postId);
+        Comment::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }
