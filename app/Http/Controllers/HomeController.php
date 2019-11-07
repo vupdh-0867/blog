@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-use App\Http\Request;
+use Illuminate\Http\Request;
 use App\Model\Post;
 
 class HomeController extends Controller
@@ -30,7 +30,7 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::newest()->with('user')->with('comments')->paginate(3);
         return view('home', compact('posts'));

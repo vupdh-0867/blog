@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Model\Post;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,8 @@ class PostController extends Controller
     {
         $postParams = $request->only(['title', 'content']);
         $postParams['user_id'] = Auth::id();
-        Post::create($postParams);
+        $post = Post::create($postParams);
+        event(new PostCreated($post));
         return redirect()->back();
     }
 

@@ -24,8 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // use clóure
+        // $schedule->call(function () {
+        //     do stg
+        // })->everyMinute();
+        // use artisan command
+        $schedule->command('post:create')->everyMinute();
     }
 
     /**
