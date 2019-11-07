@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::newest()->with('user')->paginate(3);
+        $posts = Post::newest()->with('user')->with('comments')->paginate(3);
         return view('home', compact('posts'));
     }
 }

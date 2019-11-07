@@ -22,3 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('posts', 'PostController')->only([
     'show', 'destroy', 'store'
 ]);
+
+Route::resource('comments', 'CommentController')->only([
+    'destroy', 'store'
+]);
