@@ -25,7 +25,7 @@
             <div class="comment-panel">
                 <h4>@lang('home.post_title')</h4>
                 <form method="post" action="{{route('posts.store')}}">
-                    {{csrf_field()}}
+                    @csrf
                     <div class="form-group">
                         <label>@lang('home.title')</label>
                         <input type="text" class="form-control" name="title">

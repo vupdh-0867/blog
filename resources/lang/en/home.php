@@ -2,6 +2,7 @@
 
 return [
     'delete' => 'Delete',
+    'your_posts' => 'your posts',
     'join' => 'Join',
     'title' => 'Title',
     'content' => 'Content',

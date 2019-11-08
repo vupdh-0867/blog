@@ -22,7 +22,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Auth::user()->posts()->paginate(3);
+        return view('users.timeline', compact('posts'));
     }
 
     /**

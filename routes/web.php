@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('posts', 'PostController')->only([
-    'show', 'destroy', 'store'
+    'show', 'destroy', 'store', 'index'
 ]);
 
 Route::resource('comments', 'CommentController')->only([
