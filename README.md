@@ -63,3 +63,13 @@ Tinker show sql
 ```bash
 DB::listen(function ($query) { dump($query->sql); dump($query->bindings); dump($query->time); });
 ```
+
+Run schedule bằng crontab, gõ lệnh
+```bash
+    crontab -e
+```
+
+thêm dòng này
+```
+* * * * * php /home/phan.dang.hai.vu/Documents/php/blog/artisan schedule:run
+```

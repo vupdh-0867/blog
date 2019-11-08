@@ -15,9 +15,7 @@ Route::group(['middleware' => 'locale'], function() {
         ->name('user.change-language');
 });
 
-Route::get('/', function () {
-    return view('static_pages.welcome');
-});
+Route::get('/', 'HomeController@welcome');
 
 Auth::routes();
 
