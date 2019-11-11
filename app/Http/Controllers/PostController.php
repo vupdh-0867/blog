@@ -6,13 +6,14 @@ use App\Events\PostCreated;
 use App\Model\Post;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:delete,post')->only(['destroy']);
+        $this->middleware('can:update,post')->only(['edit', 'update']);
     }
 
     /**
@@ -48,6 +49,10 @@ class PostController extends Controller
         $postParams['user_id'] = Auth::id();
         $post = Post::create($postParams);
         event(new PostCreated($post));
+        if(isset($post))
+            $request->session()->flash('status', 'Post was created successful!');
+        else
+            $request->session()->flash('status', 'Post was created failed!');
         return redirect()->back();
     }
 
@@ -70,7 +75,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -82,7 +87,10 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
@@ -93,7 +101,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Gate::authorize('delete-post', $post);
         $post->delete();
         return redirect('/home');
     }
