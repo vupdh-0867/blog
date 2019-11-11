@@ -6,13 +6,14 @@ use App\Events\PostCreated;
 use App\Model\Post;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:delete,post')->only(['destroy']);
+        $this->middleware('can:update,post')->only(['edit', 'update']);
     }
 
     /**
@@ -22,7 +23,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Auth::user()->posts()->paginate(3);
+        return view('users.timeline', compact('posts'));
     }
 
     /**
@@ -47,6 +49,10 @@ class PostController extends Controller
         $postParams['user_id'] = Auth::id();
         $post = Post::create($postParams);
         event(new PostCreated($post));
+        if(isset($post))
+            $request->session()->flash('status', 'Post was created successful!');
+        else
+            $request->session()->flash('status', 'Post was created failed!');
         return redirect()->back();
     }
 
@@ -56,9 +62,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
         return view('posts.show', compact('post'));
     }
 
@@ -68,9 +73,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -80,9 +85,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $id)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
@@ -91,10 +99,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        Gate::authorize('delete-post', $post = Post::find($id));
         $post->delete();
-        return redirect()->back();
+        return redirect('/home');
     }
 }

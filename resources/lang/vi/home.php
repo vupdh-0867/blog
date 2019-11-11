@@ -2,6 +2,8 @@
 
 return [
     'delete' => 'Xóa',
+    'edit' => 'Sửa',
+    'your_posts' => 'bài đăng của tôi',
     'join' => 'Vào chém gió',
     'title' => 'Tiêu đề',
     'content' => 'Nội dung',

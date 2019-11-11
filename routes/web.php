@@ -21,8 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('posts', 'PostController')->only([
-    'show', 'destroy', 'store'
+Route::resource('posts', 'PostController')->except([
+    'create'
 ]);
 
 Route::resource('comments', 'CommentController')->only([

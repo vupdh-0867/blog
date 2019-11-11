@@ -9,8 +9,9 @@
                     <h5 class="card-title">{{$post->title}}</h5>
                     <h6 class="card-title"><i>by {{$post->user->name}}</i></h6>
                     <p class="card-text">{{$post->content}}</p>
+                    <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">@lang('home.edit')</a>
                     @if(Gate::allows('delete-post', $post))
-                    {!! Form::open(['url' => route('posts.destroy', $post->id), 'method' => 'delete']) !!}
+                    {!! Form::open(['url' => route('posts.destroy', $post->id), 'method' => 'delete', 'class' => 'delete-form']) !!}
                     <button class="btn btn-danger" onclick="return confirm('@lang('message.delete_confirm')')">@lang('home.delete')</button>
                     {!! Form::close() !!}
                     @endif
@@ -38,7 +39,7 @@
                         </blockquote>
                         @if($comment->user->id === Auth::id())
                         {!! Form::open(['url' => route('comments.destroy', $comment->id), 'method' => 'delete', 'class' => 'delete-form']) !!}
-                            <button style="float:right;" class="btn btn-danger" onclick="return confirm('@lang('message.delete_confirm')')">@lang('home.delete')</button>
+                        <button style="float:right;" class="btn btn-danger" onclick="return confirm('@lang('message.delete_confirm')')">@lang('home.delete')</button>
                         {!! Form::close() !!}
                         @endif
                     </div>
