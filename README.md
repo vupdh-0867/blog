@@ -147,3 +147,8 @@ php artisan queue:work --queue=name
 # nhiều queue
 php artisan queue:work --queue=name,name2,name3
 ```
+## custom validation
+
+```
+php artisan make:rule Uppercase
+```
