@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Uppercase;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
@@ -24,7 +25,7 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:100',
+            'title' => ['required', 'max:100', new Uppercase],
             'content' => 'required|max:1000',
         ];
     }

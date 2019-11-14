@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
+use App\Jobs\NotifyPostCommented;
+use App\Mail\Commented;
 use App\Model\Comment;
 use App\Model\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CommentController extends Controller
 {
@@ -43,6 +46,8 @@ class CommentController extends Controller
             'user_id' => Auth::id(),
             'content' => $request->content
         ]);
+        NotifyPostCommented::dispatch($post)->delay(now()->addSeconds(3))->onQueue('emails');
+        NotifyPostCommented::dispatch($post)->onQueue('emails1');
         return redirect()->back();
     }
 
