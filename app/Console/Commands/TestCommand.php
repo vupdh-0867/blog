@@ -37,6 +37,12 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        print("aaaaaaaa");
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.chatwork.com/v2/me");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-ChatWorkToken: baceae9645c18d946c85c703e7855fb3',
+        ));
+        $resp = curl_exec($ch);
+        print $resp;
     }
 }
