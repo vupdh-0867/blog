@@ -46,3 +46,4 @@ class TestCommand extends Command
         print $resp;
     }
 }
+asdasdasdasd
